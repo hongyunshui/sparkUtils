@@ -1,6 +1,8 @@
 package com.hys.dbutil
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+
+
 
 /**
   * Spark的MySql工具类
@@ -32,6 +34,20 @@ class MySqlUtil {
     frame
   }
 
+/*  def getTableDS(sparkSession:SparkSession, url:String, user:String, password:String, tableName:String):Dataset[Any] = {
+    Class.forName("oracle.jdbc.driver.OracleDriver")
+    val df: DataFrame = sparkSession.read.format("jdbc")
+      .option("url", url)
+      .option("user", user)
+      .option("password", password)
+      .option("dbtable", tableName)
+      .option("driver", "com.mysql.jdbc.Driver")
+      .load()
+//    case class Item(id:Long, title:String, sell_point:String,price:Long, num:Long, barcode:Long, image:String, cid:Long, status:String, created:String, updated:String)
+    val ds = df.as[Any]
+    ds
+  }*/
+
 }
 
 object MySqlUtil{
@@ -45,6 +61,12 @@ object MySqlUtil{
     val mysqlTools = new MySqlUtil
     val tb_user = mysqlTools.getTableDF(spark,"jdbc:mysql://192.168.10.20:3306/taotao","taotao","taotao","tb_item")
     tb_user.show()
+    println("*********************")
+
+//    val tb_user_ds = mysqlTools.getTableDS(spark,"jdbc:mysql://192.168.10.20:3306/taotao","taotao","taotao","tb_user")
+//    tb_user_ds.show()
     spark.close()
   }
 }
+
+
